@@ -419,15 +419,15 @@ function rollCoat(pathGeno) {
       absent = 'aa';
       let x = rng(100);
 
-		console.log(geneA1, geneB1);
+		// console.log(geneA1, geneB1);
 
       if (geneA1 === dom && geneB1 === dom) {
         // dom x dom
-		  console.log('dom x dom');
+		//   console.log('dom x dom');
         tempGenoRed = dom;
       } else if (geneA1 === dom && geneB1 === rec || geneA1 === rec && geneB1 === dom) {
         // dom x rec
-		  console.log('dom x rec');
+		//   console.log('dom x rec');
         if (x <= 90) {
           tempGenoRed = rec;
         } else if (x <= 100) {
@@ -435,7 +435,7 @@ function rollCoat(pathGeno) {
         }
       } else if (geneA1 === dom && geneB1 === absent || geneA1 === absent && geneB1 === dom) {
         // dom x none
-		  console.log('dom x none');
+		//   console.log('dom x none');
         if (x <= 80) {
           tempGenoRed = rec;
         } else if (x <= 95) {
@@ -445,7 +445,7 @@ function rollCoat(pathGeno) {
         }
       } else if (geneA1 === rec && geneB1 === rec) {
         // rec x rec
-		  console.log('rec x rec');
+		//   console.log('rec x rec');
         if (x <= 80) {
           tempGenoRed = rec;
         } else if (x <= 95) {
@@ -455,7 +455,7 @@ function rollCoat(pathGeno) {
         }
       } else if (geneA1 === rec && geneB1 === absent || geneA1 === absent && geneB1 === rec) {
         // rec x absent
-		  console.log('rec x absent');
+		//   console.log('rec x absent');
         if (x <= 80) {
           tempGenoRed = rec;
         } else if (x <= 100) {
@@ -463,7 +463,7 @@ function rollCoat(pathGeno) {
         }
       } else if (geneA1 === absent && geneB1 === absent) {
         // absent x absent
-		  console.log('absent x absent');
+		//   console.log('absent x absent');
         if (x <= 100) {
           tempGenoRed = absent;
         }
