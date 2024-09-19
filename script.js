@@ -272,10 +272,8 @@ function rollInbred() {
         foal.health.push('weakened immune system');
       } else if (x <= 97) {
         foal.health.push('infertile');
-      } else if (x <= 99) {
-        foal.health.push('stillborn');
       } else if (x <= 100) {
-        foal.health.push('mare fatality');
+        foal.health.push('stillborn');
       }
     }
 
