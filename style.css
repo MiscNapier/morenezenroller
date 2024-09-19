@@ -51,7 +51,7 @@ select {
 .inputs select {
   margin: 5px;
   float: right;
-  width: 90px;
+  width: 100px;
   overflow: auto;
 }
 

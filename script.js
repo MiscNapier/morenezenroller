@@ -3,11 +3,10 @@
 
 // geneArrays
 // to add a gene, add ['colour', 'gene'] to the corresponding rarity array. Each gene in the array should be separated by a ','. The 'colour' should be all lowercase.
-// TODO: automatically sanitize capitalization on rarity arrays
 const genes = {
   common: [['champagne','Ch'],['cream','Cr'],['dun','Dn'],['pearl','Pr'],['mushroom','Ms'],['silver','Sv'],['flaxen','Fl'],['fryekli','Fr'],['grey','Gr'],['oduud','Od'],['pangare','Pn'],['rabicano','Rb'],['sabino','Sb'],['shield','Sh'],['sable','Sl'],['nightshade','Ns'],['daybreak','Db'],['khoshig','Ks'],['seal','Sl'],['tear','Tr'],['tarnish','Tn']],
   uncommon: [['leopard','Lp'],['blanket','Bl'],['chono','Cn'],['shuvuu','Su'],['overo','Ov'],['roan','Rn'],['sooty','St'],['splash','Sp'],['tobiano','To'],['onoo','On'],['eguskine','Eg'],['aqmar','Aq'],['earthen','Er'],['giraffe','Gf'],['maze','Mz'],['rosettes','Rs'],['viper','Vp']],
-  rare: [['mystic','My'],['shavar','Sr'],['tahko','Tk'],['tsasan','Ts'],['quagga','Qu'],['marbled','Mb'],['magebane','Mg'],['brume','Br']]
+  rare: [['mystic','My'],['shavar','Sr'],['takhö','Tk'],['tsasan','Ts'],['quagga','Qu'],['marbled','Mb'],['magebane','Mg'],['brume','Br']]
 };
 
 // populate dropdowns
@@ -17,6 +16,7 @@ populate('rankRider', ['untrained','initiate','rookie'], false);
 populate('rankHorse', ['adept','veteran'], false);
 populate('sireType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('damType', ['jibita pony','haspar draft','tatakh mini'], false);
+populate('buildItems', ['none','light tonic','medium tonic','heavy tonic'], false);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -42,6 +42,7 @@ function inputSetup() {
     noviceTwins: document.getElementById('noviceTwins').checked,
     tortoiseCompanion: document.getElementById('tortoiseCompanion').checked,
     pendantOfTheAncestors: document.getElementById('pendantOfTheAncestors').checked,
+	buildItems: document.getElementById('buildItems').value,
     inbred: document.getElementById('inbredGet').checked
   };
 }
@@ -212,15 +213,29 @@ function rollType() {
     foal.type = 'jibita pony';
   } 
   else if (sire.type === 'jibita pony' && dam.type === 'haspar draft' || sire.type === 'haspar draft' && dam.type === 'jibita pony') {
-	if (rng(100) <= 60) {
+	let ponyChance = 60;
+	if (input.buildItems === 'medium tonic') ponyChance = 80;
+	else if (input.buildItems === 'heavy tonic') ponyChance = 30;
+
+	if (rng(100) <= ponyChance) {
       foal.type = 'jibita pony';
     }
     else {
       foal.type = 'haspar draft';
     } 
   } 
-  else if (sire.type === 'jinbata pony' && dam.type === 'tatakh mini' || sire.type === 'tatakh mini' && dam.type === 'jibita pony') {
-	foal.type = 'illegal type cross!';
+  else if (sire.type === 'jibita pony' && dam.type === 'tatakh mini' || sire.type === 'tatakh mini' && dam.type === 'jibita pony') {
+	if (input.buildItems === 'light tonic') {
+		if (rng(100) <= 80) {
+			foal.type = 'jibita pony';
+		}
+		else {
+			foal.type = 'tatakh mini';
+		}
+	}
+	else {
+		foal.type = 'illegal type cross!';
+	}
   }
   else if (sire.type === 'haspar draft' && dam.type === 'haspar draft') {
     foal.type = 'haspar draft';
