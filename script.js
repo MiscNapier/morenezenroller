@@ -15,8 +15,8 @@ populate('tarotCard', ['stallion','mare'], false);
 populate('furCloak', genes, true);
 populate('rankRider', ['untrained','initiate','rookie'], false);
 populate('rankHorse', ['adept','veteran'], false);
-populate('sireType', ['jibita','haspar draft'], false);
-populate('damType', ['jibita','haspar draft'], false);
+populate('sireType', ['jibita pony','haspar draft','tatakh mini'], false);
+populate('damType', ['jibita pony','haspar draft','tatakh mini'], false);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -208,17 +208,28 @@ function rollGender() {
 
 function rollType() {
   //console.log(sire.type, dam.type);
-  if (sire.type === 'jibita' && dam.type === 'jibita') {
-    foal.type = 'jibita';
-  } else if (sire.type === 'jibita' && dam.type === 'haspar draft' || sire.type === 'haspar draft' && dam.type === 'jibita') {
-    let x = rng(100);
-    if (x <= 20) {
-      foal.type = 'haspar draft Draft';
-    } else if (x <= 100) {
-      foal.type = 'jibita';
+  if (sire.type === 'jibita pony' && dam.type === 'jibita pony') {
+    foal.type = 'jibita pony';
+  } 
+  else if (sire.type === 'jibita pony' && dam.type === 'haspar draft' || sire.type === 'haspar draft' && dam.type === 'jibita pony') {
+	if (rng(100) <= 60) {
+      foal.type = 'jibita pony';
     }
-  } else if (sire.type === 'haspar draft' && dam.type === 'haspar draft') {
+    else {
+      foal.type = 'haspar draft';
+    } 
+  } 
+  else if (sire.type === 'jinbata pony' && dam.type === 'tatakh mini' || sire.type === 'tatakh mini' && dam.type === 'jibita pony') {
+	foal.type = 'illegal type cross!';
+  }
+  else if (sire.type === 'haspar draft' && dam.type === 'haspar draft') {
     foal.type = 'haspar draft';
+  }
+  else if (sire.type === 'haspar draft' && dam.type === 'tatakh mini' || sire.type === 'tatakh mini' && dam.type === 'haspar draft') {
+	foal.type = 'illegal type cross!'
+  }
+  else if (sire.type === 'tatakh mini' && dam.type === 'tatakh mini') {
+	foal.type = 'tatakh mini';
   }
 }
 
