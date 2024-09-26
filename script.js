@@ -1404,7 +1404,9 @@ function buttonPress() {
 
   // check if breeding failed else output foal
   // TODO: remember to un-comment testing change
-  if (input.rankRider === 'untrained' && rng(100) <= 75 || input.rankRider === 'initiate' && rng(100) <= 25 /*1 !== 1*/) {
+  let untrainedFailChance = 75;
+  if (input.heirloomCurryComb) untrainedFailChance = 25;
+  if (input.rankRider === 'untrained' && rng(100) <= untrainedFailChance || input.rankRider === 'initiate' && rng(100) <= 25) {
     document.getElementById('foalOutput1').innerHTML = 'Breeding Failed\n\n';
   } else {
     for (let i = 1; i <= foalNum; i++) {
