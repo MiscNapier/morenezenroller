@@ -885,11 +885,12 @@ function readPheno(pathGeno, pathPheno) {
     }
 
     //flaxen
-    if (tempFoal.search(/\b(nFl|FlFl)\b/) !== -1 && pathPheno.base.indexOf('chestnut') === -1 || tempFoal.search(/\b(nFl)\b/) !== -1) {
+    if (tempFoal.search(/\b(nFl|FlFl)\b/) !== -1 && pathPheno.base.indexOf('chestnut') === -1) {
       flaxen = pathPheno.rarities.indexOf('flaxen');
       pathPheno.rarities.splice(flaxen, 1);
       pathPheno.carries.push('flaxen');
-    } else if (tempFoal.search(/\b(FlFl)\b/) !== -1) {
+    } 
+	else if (tempFoal.search(/\b(FlFl)\b/) !== -1) {
       flaxen = pathPheno.rarities.indexOf('flaxen');
       pathPheno.rarities.splice(flaxen, 1);
       pathPheno.base.unshift('flaxen');
@@ -1376,7 +1377,7 @@ function buttonPress() {
   } else if (input.rankHorse === 'expertmaster') {
     twinsChance += 20;
   }
-  // console.log(twinsChance);
+  console.log(twinsChance);
 
   // set foalNum
   if (rng(100) <= twinsChance) {
