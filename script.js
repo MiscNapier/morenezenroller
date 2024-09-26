@@ -1380,11 +1380,15 @@ function buttonPress() {
   if (input.ringOfBlessings === true || input.tortoiseCompanion === true) {
     twinsChance += 20;
   }
+
   if (input.noviceTwins === true) {
     twinsChance += 10;
-  } else if (input.rankHorse === 'expertmaster') {
+  } 
+  else if (input.rankHorse === 'expertmaster') {
     twinsChance += 20;
   }
+
+  if (input.charmOfFortune) twinsChance = 100;
   console.log(twinsChance);
 
   // set foalNum
