@@ -43,6 +43,13 @@ function inputSetup() {
     tortoiseCompanion: document.getElementById('tortoiseCompanion').checked,
     pendantOfTheAncestors: document.getElementById('pendantOfTheAncestors').checked,
 	buildItems: document.getElementById('buildItems').value,
+	heirloomCurryComb: document.getElementById('heirloomCurryComb').checked,
+	charmOfSuccess: document.getElementById('charmOfSuccess').checked,
+	charmOfHealth: document.getElementById('charmOfHealth').checked,
+	ceremonialBelt: document.getElementById('ceremonialBelt').checked,
+	ceremonialMask: document.getElementById('ceremonialMask').checked,
+	ceremonialHeadpiece: document.getElementById('ceremonialHeadpiece').checked,
+	mysteriousMixture: document.getElementById('mysteriousMixture').checked,
     inbred: document.getElementById('inbredGet').checked
   };
 }
@@ -126,6 +133,7 @@ function foalSetup() {
 // TODO: refactor rollStats, still long-winded and assumes formatting too much
 function rollStats() {
   function rngStats(x) {
+	if (input.charmOfSuccess) x = x * 2;
     let roll = Math.floor(Math.random() * x);
     return roll;
   }
