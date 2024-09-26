@@ -46,6 +46,7 @@ function inputSetup() {
 	heirloomCurryComb: document.getElementById('heirloomCurryComb').checked,
 	charmOfSuccess: document.getElementById('charmOfSuccess').checked,
 	charmOfHealth: document.getElementById('charmOfHealth').checked,
+	charmOfFortune: document.getElementById('charmOfFortune').checked,
 	ceremonialBelt: document.getElementById('ceremonialBelt').checked,
 	ceremonialMask: document.getElementById('ceremonialMask').checked,
 	ceremonialHeadpiece: document.getElementById('ceremonialHeadpiece').checked,
@@ -1215,7 +1216,9 @@ function rollMutations() {
     foal.pheno.mutations.push('[Marl]');
   }
 
-  if (rng(100) <= 3) {
+	let extraChance = 0;
+	if (input.mysteriousMixture) extraChance += 7;
+  if (rng(100) <= 3 + extraChance) {
     let x = rng(142);
 
     if (x <= 14) {
