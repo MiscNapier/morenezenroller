@@ -678,14 +678,14 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(dom);
         }
       } else if (geneA === dom && geneB === false || geneA === false && geneB === dom) {
-		console.log(input.furCloak, cloak);
         // dom x none
         if (x <= 65) {
           pathGeno.rarities.push(rec);
         } else if (x <= 80) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       } else if (geneA === rec && geneB === rec) {
         // rec x rec
@@ -693,15 +693,17 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(rec);
         } else if (x <= 80) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       } else if (geneA === rec && geneB === false || geneA === false && geneB === rec) {
         // rec x none
         if (x <= 50) {
           pathGeno.rarities.push(rec);
-        } else if (foalNum === 1 && input.furCloak === cloak) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       }
     }
@@ -733,8 +735,9 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(rec);
         } else if (x <= 50) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       } else if (geneA === rec && geneB === rec) {
         // rec x rec
@@ -742,15 +745,17 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(rec);
         } else if (x <= 50) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       } else if (geneA === rec && geneB === false || geneA === false && geneB === rec) {
         // rec x none
         if (x <= 30) {
           pathGeno.rarities.push(rec);
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       }
     }
@@ -790,15 +795,17 @@ function rollCoat(pathGeno) {
         } else if (x <= 45) {
           pathGeno.rarities.push(dom);
           rareHealth();
-        } else if (foalNum === 1 && input.furCloak === cloak) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       } else if (geneA === rec && geneB === false || geneA === false && geneB === rec) {
         // rec x none
         if (x <= 25) {
           pathGeno.rarities.push(rec);
-        } else if (foalNum === 1 && input.furCloak === cloak) {
+        } else if (input.furCloak === cloak && !cloakTriggered) {
           pathGeno.rarities.push(rec);
+		  cloakTriggered = true;
         }
       }
     }
@@ -1395,9 +1402,10 @@ function buttonPress() {
   }
 
   if (input.charmOfFortune) twinsChance = 100;
-  console.log(twinsChance);
+//   console.log(twinsChance);
 
   // set foalNum
+  window.cloakTriggered = false;
   if (rng(100) <= twinsChance) {
     foalNum = 2;
   } else {
