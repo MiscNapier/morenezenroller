@@ -333,7 +333,7 @@ function rollInbred() {
     }
   }
 
-  if (input.fertilitySupplement === true || input.tortoiseCompanion === true) {
+  if (input.fertilitySupplement === true || input.tortoiseCompanion === true || input.rankHorse === 'veteran') {
     foal.health.push('healthy');
   } else if (input.inbred === true) {
     rollhealth();
@@ -1387,7 +1387,7 @@ function buttonPress() {
   if (input.noviceTwins === true) {
     twinsChance += 10;
   } 
-  else if (input.rankHorse === 'expertmaster') {
+  else if (input.rankHorse === 'veteran') {
     twinsChance += 20;
   }
 
