@@ -1381,7 +1381,9 @@ function buttonPress() {
 
   // set twinChance
   if (input.ringOfBlessings === true || input.tortoiseCompanion === true) {
-    twinsChance += 20;
+    if (input.ringOfBlessings && input.rankRider === 'rookie') twinsChance += 40;
+    else if (input.ringOfBlessings) twinsChance += 30;
+	else if (input.tortoiseCompanion) twinsChance += 20;
   }
 
   if (input.noviceTwins === true) {
