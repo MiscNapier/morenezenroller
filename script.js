@@ -678,12 +678,13 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(dom);
         }
       } else if (geneA === dom && geneB === false || geneA === false && geneB === dom) {
+		console.log(input.furCloak, cloak);
         // dom x none
         if (x <= 65) {
           pathGeno.rarities.push(rec);
         } else if (x <= 80) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (foalNum === 1 && input.furCloak === cloak) {
           pathGeno.rarities.push(rec);
         }
       } else if (geneA === rec && geneB === rec) {
@@ -692,14 +693,14 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(rec);
         } else if (x <= 80) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (foalNum === 1 && input.furCloak === cloak) {
           pathGeno.rarities.push(rec);
         }
       } else if (geneA === rec && geneB === false || geneA === false && geneB === rec) {
         // rec x none
         if (x <= 50) {
           pathGeno.rarities.push(rec);
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (foalNum === 1 && input.furCloak === cloak) {
           pathGeno.rarities.push(rec);
         }
       }
@@ -732,7 +733,7 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(rec);
         } else if (x <= 50) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (foalNum === 1 && input.furCloak === cloak) {
           pathGeno.rarities.push(rec);
         }
       } else if (geneA === rec && geneB === rec) {
@@ -741,7 +742,7 @@ function rollCoat(pathGeno) {
           pathGeno.rarities.push(rec);
         } else if (x <= 50) {
           pathGeno.rarities.push(dom);
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (foalNum === 1 && input.furCloak === cloak) {
           pathGeno.rarities.push(rec);
         }
       } else if (geneA === rec && geneB === false || geneA === false && geneB === rec) {
@@ -789,14 +790,14 @@ function rollCoat(pathGeno) {
         } else if (x <= 45) {
           pathGeno.rarities.push(dom);
           rareHealth();
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (foalNum === 1 && input.furCloak === cloak) {
           pathGeno.rarities.push(rec);
         }
       } else if (geneA === rec && geneB === false || geneA === false && geneB === rec) {
         // rec x none
         if (x <= 25) {
           pathGeno.rarities.push(rec);
-        } else if (foalNum === 1 && input.furCloak === cloak && x <= 100) {
+        } else if (foalNum === 1 && input.furCloak === cloak) {
           pathGeno.rarities.push(rec);
         }
       }
