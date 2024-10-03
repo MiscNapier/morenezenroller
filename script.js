@@ -335,13 +335,21 @@ function rollInbred() {
 
   if (input.fertilitySupplement === true || input.tortoiseCompanion === true || input.rankHorse === 'veteran') {
     foal.health.push('healthy');
-  } else if (input.inbred === true) {
+  }
+  else if (input.charmOfHealth) {
+	charmOfHealthTriggered = true;
+	foal.health.push('healthy');
+  }
+  else if (input.inbred === true) {
     rollhealth();
-  } else if (input.rankRider === 'untrained' && twins === true || input.rankRider === 'initiate' && twins === true || input.rankRider === 'rookie' && twins === true) {
+  }
+  else if (input.rankRider === 'untrained' && twins === true || input.rankRider === 'initiate' && twins === true || input.rankRider === 'rookie' && twins === true) {
     rollhealth();
-  } else if (input.noviceTwins === true && twins === true) {
+  }
+  else if (input.noviceTwins === true && twins === true) {
     rollhealth();
-  } else {
+  }
+  else {
     foal.health.push('healthy');
   }
 }
@@ -758,6 +766,13 @@ function rollCoat(pathGeno) {
 		  cloakTriggered = true;
         }
       }
+
+	  if (input.charmOfHealth && gene[0] === 'overo') {
+		if (!pathGeno.rarities.includes(dom) && !pathGeno.rarities.includes(rec)) {
+			charmOfHealthTriggered = true;
+			pathGeno.rarities.push(rec);
+		}
+	  }
     }
 
     // console.log(pathGeno.rarities);
@@ -808,6 +823,13 @@ function rollCoat(pathGeno) {
 		  cloakTriggered = true;
         }
       }
+
+		if (input.charmOfHealth) {
+			if (!pathGeno.rarities.includes(dom) && !pathGeno.rarities.includes(rec)) {
+				charmOfHealthTriggered = true;
+				pathGeno.rarities.push(rec);
+			}
+		}
     }
 
     // console.log(foal.geno);
@@ -1404,8 +1426,10 @@ function buttonPress() {
   if (input.charmOfFortune) twinsChance = 100;
 //   console.log(twinsChance);
 
-  // set foalNum
   window.cloakTriggered = false;
+  window.charmOfHealthTriggered = false;
+
+  // set foalNum
   if (rng(100) <= twinsChance) {
     foalNum = 2;
   } else {
