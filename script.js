@@ -17,6 +17,7 @@ populate('rankHorse', ['adept','veteran'], false);
 populate('sireType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('damType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('buildItems', ['none','light tonic','medium tonic','heavy tonic'], false);
+populate('ceremonialMask', genes, true);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -48,7 +49,7 @@ function inputSetup() {
 	charmOfHealth: document.getElementById('charmOfHealth').checked,
 	charmOfFortune: document.getElementById('charmOfFortune').checked,
 	ceremonialBelt: document.getElementById('ceremonialBelt').checked,
-	ceremonialMask: document.getElementById('ceremonialMask').checked,
+	ceremonialMask: document.getElementById('ceremonialMask').value,
 	ceremonialHeadpiece: document.getElementById('ceremonialHeadpiece').checked,
 	mysteriousMixture: document.getElementById('mysteriousMixture').checked,
     inbred: document.getElementById('inbredGet').checked
@@ -714,6 +715,17 @@ function rollCoat(pathGeno) {
 		  cloakTriggered = true;
         }
       }
+
+	  if (input.ceremonialMask === gene[0] && rng(100) <= 15) {
+		ceremonialMaskTriggered = true;
+		if (pathGeno.rarities.includes(rec)) {
+			pathGeno.rarities.pop();
+			pathGeno.rarities.push(dom);
+		}
+		else if (!pathGeno.rarities.includes(dom) && !pathGeno.rarities.includes(rec)) {
+			pathGeno.rarities.push(dom);
+		}
+	  }
     }
 
     // console.log(pathGeno.rarities);
@@ -773,6 +785,17 @@ function rollCoat(pathGeno) {
 			pathGeno.rarities.push(rec);
 		}
 	  }
+
+	  if (input.ceremonialMask === gene[0] && rng(100) <= 10) {
+		ceremonialMaskTriggered = true;
+		if (pathGeno.rarities.includes(rec)) {
+			pathGeno.rarities.pop();
+			pathGeno.rarities.push(dom);
+		}
+		else if (!pathGeno.rarities.includes(dom) && !pathGeno.rarities.includes(rec)) {
+			pathGeno.rarities.push(dom);
+		}
+	  }
     }
 
     // console.log(pathGeno.rarities);
@@ -828,6 +851,17 @@ function rollCoat(pathGeno) {
 			if (!pathGeno.rarities.includes(dom) && !pathGeno.rarities.includes(rec)) {
 				charmOfHealthTriggered = true;
 				pathGeno.rarities.push(rec);
+			}
+		}
+
+		if (input.ceremonialMask === gene[0] && rng(100) <= 15) {
+			ceremonialMaskTriggered = true;
+			if (pathGeno.rarities.includes(rec)) {
+				pathGeno.rarities.pop();
+				pathGeno.rarities.push(dom);
+			}
+			else if (!pathGeno.rarities.includes(dom) && !pathGeno.rarities.includes(rec)) {
+				pathGeno.rarities.push(dom);
 			}
 		}
     }
@@ -1428,6 +1462,7 @@ function buttonPress() {
 
   window.cloakTriggered = false;
   window.charmOfHealthTriggered = false;
+  window.ceremonialMaskTriggered = false;
 
   // set foalNum
   if (rng(100) <= twinsChance) {
