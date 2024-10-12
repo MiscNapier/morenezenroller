@@ -898,33 +898,26 @@ function rollCoat(pathGeno) {
 	if (input.ceremonialBelt !== 'n/a') {
 		console.log('ceremonial belt triggered');
 
-		function searchBase(base) {
-			if (base.search(/ee (A|At|A\+|a)(A|At|A\+|a)/) !== -1) {
-				return 'chestnut';
-			} else if (base.search(/E(E|e) (A)(A|a)/) !== -1) {
-				return 'bay';
-			} else if (base.search(/E(E|e) (At)(A|At|a)/) !== -1) {
-				return 'mealy';
-			} else if (base.search(/E(E|e) (A\+)(A|A\+|a)/) !== -1) {
-				return 'wild bay';
-			} else if (base.search(/E(E|e) aa/) !== -1) {
-				return 'black';
-			}
+		if (input.ceremonialBelt === 'chestnut') {
+			pathGeno.base.push('ee');
+			pathGeno.base.push(randomizer(['AA','AtAt','Ata','A+A+','AA+','Aa','aa']));
 		}
-
-		let baseSire = searchBase(sire.geno);
-		let baseDam = searchBase(dam.geno);
-		console.log(baseSire, baseDam);
-
-		let legalParents = [
-			['chestnut', [
-				['chestnut', 'chestnut'],
-				['chestnut', 'mealy'],
-			]],
-		]
-
-		pathGeno.base.push('ee');
-		pathGeno.base.push('aa');
+		else if (input.ceremonialBelt === 'mealy') {
+			pathGeno.base.push(randomizer(['EE','Ee']));
+			pathGeno.base.push(randomizer(['AtAt','Ata']));
+		}
+		else if (input.ceremonialBelt === 'wild bay') {
+			pathGeno.base.push(randomizer(['EE','Ee']));
+			pathGeno.base.push(randomizer(['A+A+','A+a']));
+		}
+		else if (input.ceremonialBelt === 'bay') {
+			pathGeno.base.push(randomizer(['EE','Ee']));
+			pathGeno.base.push(randomizer(['AA','Aa']));
+		}
+		else if (input.ceremonialBelt === 'black') {
+			pathGeno.base.push(randomizer(['EE','Ee']));
+			pathGeno.base.push('aa');
+		}
 	}
 	else {
 		logicBlack();
