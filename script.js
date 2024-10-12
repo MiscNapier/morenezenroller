@@ -18,6 +18,7 @@ populate('sireType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('damType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('buildItems', ['none','light tonic','medium tonic','heavy tonic'], false);
 populate('ceremonialMask', genes, true);
+populate('ceremonialHeadpiece', genes, true);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -50,7 +51,7 @@ function inputSetup() {
 	charmOfFortune: document.getElementById('charmOfFortune').checked,
 	ceremonialBelt: document.getElementById('ceremonialBelt').checked,
 	ceremonialMask: document.getElementById('ceremonialMask').value,
-	ceremonialHeadpiece: document.getElementById('ceremonialHeadpiece').checked,
+	ceremonialHeadpiece: document.getElementById('ceremonialHeadpiece').value,
 	mysteriousMixture: document.getElementById('mysteriousMixture').checked,
     inbred: document.getElementById('inbredGet').checked
   };
@@ -659,6 +660,7 @@ function rollCoat(pathGeno) {
     dom = gene[1] + gene[1];
     rec = 'n' + gene[1];
     cloak = gene[0];
+    headpiece = gene[0];
     let regEx = '\\b(' + dom + '|' + rec + ')\\b';
     regEx = new RegExp(regEx, '');
     // console.log(regEx);
@@ -670,6 +672,11 @@ function rollCoat(pathGeno) {
 
   function logicCommon(gene) {
     logicPrepareGene(gene);
+
+	if (input.ceremonialHeadpiece === headpiece && !headpieceTriggered) {
+		headpieceTriggered = true;
+		return;
+	}
 
     if (geneA !== false || geneB !== false) {
       let x = rng(100);
@@ -733,6 +740,11 @@ function rollCoat(pathGeno) {
 
   function logicUncommon(gene) {
     logicPrepareGene(gene);
+
+	if (input.ceremonialHeadpiece === headpiece && !headpieceTriggered) {
+		headpieceTriggered = true;
+		return;
+	}
 
     if (geneA !== false || geneB !== false) {
       let x = rng(100);
@@ -812,6 +824,11 @@ function rollCoat(pathGeno) {
     }
 
     logicPrepareGene(gene);
+
+	if (input.ceremonialHeadpiece === headpiece && !headpieceTriggered) {
+		headpieceTriggered = true;
+		return;
+	}
 
     if (geneA !== false || geneB !== false) {
       let x = rng(100);
@@ -1461,6 +1478,7 @@ function buttonPress() {
 //   console.log(twinsChance);
 
   window.cloakTriggered = false;
+  window.headpieceTriggered = false;
   window.charmOfHealthTriggered = false;
   window.ceremonialMaskTriggered = false;
 
