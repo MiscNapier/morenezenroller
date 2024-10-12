@@ -19,6 +19,7 @@ populate('damType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('buildItems', ['none','light tonic','medium tonic','heavy tonic'], false);
 populate('ceremonialMask', genes, true);
 populate('ceremonialHeadpiece', genes, true);
+populate('ceremonialBelt', ['chestnut','mealy','wild bay','bay','black'], false);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -49,7 +50,7 @@ function inputSetup() {
 	charmOfSuccess: document.getElementById('charmOfSuccess').checked,
 	charmOfHealth: document.getElementById('charmOfHealth').checked,
 	charmOfFortune: document.getElementById('charmOfFortune').checked,
-	ceremonialBelt: document.getElementById('ceremonialBelt').checked,
+	ceremonialBelt: document.getElementById('ceremonialBelt').value,
 	ceremonialMask: document.getElementById('ceremonialMask').value,
 	ceremonialHeadpiece: document.getElementById('ceremonialHeadpiece').value,
 	mysteriousMixture: document.getElementById('mysteriousMixture').checked,
@@ -365,294 +366,296 @@ function rollCoat(pathGeno) {
   let geneA = false;
   let geneB = false;
 
-  function logicBlack() {
-    dom = 'EE';
-    rec = 'Ee';
-    absent = 'ee';
-    let regEx = /\b(E|e)(E|e)\b/;
+ 
+	function logicBlack() {
+		dom = 'EE';
+		rec = 'Ee';
+		absent = 'ee';
+		let regEx = /\b(E|e)(E|e)\b/;
 
-    geneA = sire.geno.match(regEx) !== null ? sire.geno.match(regEx)[0]:false;
-    geneB = dam.geno.match(regEx) !== null ? dam.geno.match(regEx)[0]:false;
-    // console.log(geneA, geneB);
+		geneA = sire.geno.match(regEx) !== null ? sire.geno.match(regEx)[0]:false;
+		geneB = dam.geno.match(regEx) !== null ? dam.geno.match(regEx)[0]:false;
+		// console.log(geneA, geneB);
 
-    if (geneA !== false && geneB !== false) {
-      let x = rng(100);
+		if (geneA !== false && geneB !== false) {
+		let x = rng(100);
 
-      if (geneA === dom && geneB === dom) {
-        // dom x dom
-        pathGeno.base.push(dom);
-      } else if (geneA === dom && geneB === rec || geneA === rec && geneB === dom) {
-        // dom x rec
-        if (x <= 80) {
-          pathGeno.base.push(rec);
-        } else if (x <= 100) {
-          pathGeno.base.push(dom);
-        }
-      } else if (geneA === dom && geneB === absent || geneA === absent && geneB === dom) {
-        // dom x absent
-        if (x <= 80) {
-          pathGeno.base.push(rec);
-        } else if (x <= 95) {
-          pathGeno.base.push(dom);
-        } else if (x <= 100) {
-          pathGeno.base.push(absent);
-        }
-      } else if (geneA === rec && geneB === rec) {
-        // rec x rec
-        if (x <= 80) {
-          pathGeno.base.push(rec);
-        } else if (x <= 85) {
-          pathGeno.base.push(dom);
-        } else if (x <= 100) {
-          pathGeno.base.push(absent);
-        }
-      } else if (geneA === rec && geneB === absent || geneA === absent && geneB === rec) {
-        // rec x absent
-        if (x <= 60) {
-          pathGeno.base.push(rec);
-        } else if (x <= 100) {
-          pathGeno.base.push(absent);
-        }
-      } else if (geneA === absent && geneB === absent) {
-        // absent x absent
-        if (x <= 100) {
-          pathGeno.base.push(absent);
-        }
-      }
-    } else {
-      foal.warning = 'black missing, inaccurate parent geno';
-      pathGeno.base.push('??');
-    }
-  }
+		if (geneA === dom && geneB === dom) {
+			// dom x dom
+			pathGeno.base.push(dom);
+		} else if (geneA === dom && geneB === rec || geneA === rec && geneB === dom) {
+			// dom x rec
+			if (x <= 80) {
+			pathGeno.base.push(rec);
+			} else if (x <= 100) {
+			pathGeno.base.push(dom);
+			}
+		} else if (geneA === dom && geneB === absent || geneA === absent && geneB === dom) {
+			// dom x absent
+			if (x <= 80) {
+			pathGeno.base.push(rec);
+			} else if (x <= 95) {
+			pathGeno.base.push(dom);
+			} else if (x <= 100) {
+			pathGeno.base.push(absent);
+			}
+		} else if (geneA === rec && geneB === rec) {
+			// rec x rec
+			if (x <= 80) {
+			pathGeno.base.push(rec);
+			} else if (x <= 85) {
+			pathGeno.base.push(dom);
+			} else if (x <= 100) {
+			pathGeno.base.push(absent);
+			}
+		} else if (geneA === rec && geneB === absent || geneA === absent && geneB === rec) {
+			// rec x absent
+			if (x <= 60) {
+			pathGeno.base.push(rec);
+			} else if (x <= 100) {
+			pathGeno.base.push(absent);
+			}
+		} else if (geneA === absent && geneB === absent) {
+			// absent x absent
+			if (x <= 100) {
+			pathGeno.base.push(absent);
+			}
+		}
+		} else {
+		foal.warning = 'black missing, inaccurate parent geno';
+		pathGeno.base.push('??');
+		}
+	}
 
-  function logicAgouti() {
-    let tempGenoRed = '';
-    let tempGenoMealy = '';
-    let tempGenoWild = '';
-    let geneA1 = '';
-    let geneB1 = '';
-    let geneA2 = '';
-    let geneB2 = '';
-    let geneA3 = '';
-    let geneB3 = '';
-    let regEx = /\b(A|At|Aw|a)(A|At|Aw|a)\b/;
+	function logicAgouti() {
+		let tempGenoRed = '';
+		let tempGenoMealy = '';
+		let tempGenoWild = '';
+		let geneA1 = '';
+		let geneB1 = '';
+		let geneA2 = '';
+		let geneB2 = '';
+		let geneA3 = '';
+		let geneB3 = '';
+		let regEx = /\b(A|At|Aw|a)(A|At|Aw|a)\b/;
 
-    // console.log(sire.geno, dam.geno);
-    geneA = sire.geno.match(regEx) !== null ? sire.geno.match(regEx)[0]:false;
-    geneB = dam.geno.match(regEx) !== null ? dam.geno.match(regEx)[0]:false;
-    // console.log(geneA, geneB);
+		// console.log(sire.geno, dam.geno);
+		geneA = sire.geno.match(regEx) !== null ? sire.geno.match(regEx)[0]:false;
+		geneB = dam.geno.match(regEx) !== null ? dam.geno.match(regEx)[0]:false;
+		// console.log(geneA, geneB);
 
-    function logicAgoutiSplit() {
-      geneA1 = geneA.replace(/t|w/g, '');
-      geneB1 = geneB.replace(/t|w/g, '');
-      // console.log(geneA1, geneB1);
-
-      geneA2 = geneA.search(/t/) !== -1 ? geneA.replace(/A|a/g, ''):false;
-      geneB2 = geneB.search(/t/) !== -1 ? geneB.replace(/A|a/g, ''):false;
-      // console.log(geneA2, geneB2);
-
-      geneA3 = geneA.search(/w/) !== -1 ? geneA.replace(/A|a/g, ''):false;
-      geneB3 = geneB.search(/w/) !== -1 ? geneB.replace(/A|a/g, ''):false;
-      // console.log(geneA3, geneB3);
-    }
-
-    function logicAgoutiRed() {
-      dom = 'AA';
-      rec = 'Aa';
-      absent = 'aa';
-      let x = rng(100);
-
+		function logicAgoutiSplit() {
+		geneA1 = geneA.replace(/t|w/g, '');
+		geneB1 = geneB.replace(/t|w/g, '');
 		// console.log(geneA1, geneB1);
 
-      if (geneA1 === dom && geneB1 === dom) {
-        // dom x dom
-		//   console.log('dom x dom');
-        tempGenoRed = dom;
-      } else if (geneA1 === dom && geneB1 === rec || geneA1 === rec && geneB1 === dom) {
-        // dom x rec
-		//   console.log('dom x rec');
-        if (x <= 90) {
-          tempGenoRed = rec;
-        } else if (x <= 100) {
-          tempGenoRed = dom;
-        }
-      } else if (geneA1 === dom && geneB1 === absent || geneA1 === absent && geneB1 === dom) {
-        // dom x none
-		//   console.log('dom x none');
-        if (x <= 80) {
-          tempGenoRed = rec;
-        } else if (x <= 95) {
-          tempGenoRed = dom;
-        } else if (x <= 100) {
-          tempGenoRed = absent;
-        }
-      } else if (geneA1 === rec && geneB1 === rec) {
-        // rec x rec
-		//   console.log('rec x rec');
-        if (x <= 80) {
-          tempGenoRed = rec;
-        } else if (x <= 95) {
-          tempGenoRed = dom;
-        } else if (x <= 100) {
-          tempGenoRed = absent;
-        }
-      } else if (geneA1 === rec && geneB1 === absent || geneA1 === absent && geneB1 === rec) {
-        // rec x absent
-		//   console.log('rec x absent');
-        if (x <= 80) {
-          tempGenoRed = rec;
-        } else if (x <= 100) {
-          tempGenoRed = absent;
-        }
-      } else if (geneA1 === absent && geneB1 === absent) {
-        // absent x absent
-		//   console.log('absent x absent');
-        if (x <= 100) {
-          tempGenoRed = absent;
-        }
-      }
-    }
+		geneA2 = geneA.search(/t/) !== -1 ? geneA.replace(/A|a/g, ''):false;
+		geneB2 = geneB.search(/t/) !== -1 ? geneB.replace(/A|a/g, ''):false;
+		// console.log(geneA2, geneB2);
 
-    function logicAgoutiMealy() {
-      dom = 'tt';
-      rec = 't';
-      let x = rng(100);
+		geneA3 = geneA.search(/w/) !== -1 ? geneA.replace(/A|a/g, ''):false;
+		geneB3 = geneB.search(/w/) !== -1 ? geneB.replace(/A|a/g, ''):false;
+		// console.log(geneA3, geneB3);
+		}
 
-      if (geneA2 === dom && geneB2 === dom) {
-        // dom x dom
-        if (x <= 65) {
-          tempGenoMealy = rec;
-        } else if (x <= 90) {
-          tempGenoMealy = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA2 === dom && geneB2 === rec || geneA2 === rec && geneB2 === dom) {
-        // dom x rec
-        if (x <= 45) {
-          tempGenoMealy = rec;
-        } else if (x <= 60) {
-          tempGenoMealy = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA2 === dom && geneB2 === false || geneA2 === false && geneB2 === dom) {
-        // dom x none
-        if (x <= 30) {
-          tempGenoMealy = rec;
-        } else if (x <= 35) {
-          tempGenoMealy = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA2 === rec && geneB2 === rec) {
-        // rec x rec
-        if (x <= 30) {
-          tempGenoMealy = rec;
-        } else if (x <= 35) {
-          tempGenoMealy = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA2 === rec && geneB2 === false || geneA2 === false && geneB2 === rec) {
-        // rec x none
-        if (x <= 15) {
-          tempGenoMealy = rec;
-        } else if (x <= 100) {
-          // none
-        }
-      }
-    }
+		function logicAgoutiRed() {
+		dom = 'AA';
+		rec = 'Aa';
+		absent = 'aa';
+		let x = rng(100);
 
-    function logicAgoutiWild() {
-      dom = 'ww';
-      rec = 'w';
-      let x = rng(100);
+			// console.log(geneA1, geneB1);
 
-      if (geneA3 === dom && geneB3 === dom) {
-        // dom x dom
-        if (x <= 65) {
-          tempGenoWild = rec;
-        } else if (x <= 90) {
-          tempGenoWild = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA3 === dom && geneB3 === rec || geneA3 === rec && geneB3 === dom) {
-        // dom x rec
-        if (x <= 45) {
-          tempGenoWild = rec;
-        } else if (x <= 60) {
-          tempGenoWild = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA3 === dom && geneB3 === false || geneA3 === false && geneB3 === dom) {
-        // dom x none
-        if (x <= 30) {
-          tempGenoWild = rec;
-        } else if (x <= 35) {
-          tempGenoWild = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA3 === rec && geneB3 === rec) {
-        // rec x rec
-        if (x <= 30) {
-          tempGenoWild = rec;
-        } else if (x <= 35) {
-          tempGenoWild = dom;
-        } else if (x <= 100) {
-          // none
-        }
-      } else if (geneA3 === rec && geneB3 === false || geneA3 === false && geneB3 === rec) {
-        // rec x none
-        if (x <= 15) {
-          tempGenoWild = rec;
-        } else if (x <= 100) {
-          // none
-        }
-      }
-    }
+		if (geneA1 === dom && geneB1 === dom) {
+			// dom x dom
+			//   console.log('dom x dom');
+			tempGenoRed = dom;
+		} else if (geneA1 === dom && geneB1 === rec || geneA1 === rec && geneB1 === dom) {
+			// dom x rec
+			//   console.log('dom x rec');
+			if (x <= 90) {
+			tempGenoRed = rec;
+			} else if (x <= 100) {
+			tempGenoRed = dom;
+			}
+		} else if (geneA1 === dom && geneB1 === absent || geneA1 === absent && geneB1 === dom) {
+			// dom x none
+			//   console.log('dom x none');
+			if (x <= 80) {
+			tempGenoRed = rec;
+			} else if (x <= 95) {
+			tempGenoRed = dom;
+			} else if (x <= 100) {
+			tempGenoRed = absent;
+			}
+		} else if (geneA1 === rec && geneB1 === rec) {
+			// rec x rec
+			//   console.log('rec x rec');
+			if (x <= 80) {
+			tempGenoRed = rec;
+			} else if (x <= 95) {
+			tempGenoRed = dom;
+			} else if (x <= 100) {
+			tempGenoRed = absent;
+			}
+		} else if (geneA1 === rec && geneB1 === absent || geneA1 === absent && geneB1 === rec) {
+			// rec x absent
+			//   console.log('rec x absent');
+			if (x <= 80) {
+			tempGenoRed = rec;
+			} else if (x <= 100) {
+			tempGenoRed = absent;
+			}
+		} else if (geneA1 === absent && geneB1 === absent) {
+			// absent x absent
+			//   console.log('absent x absent');
+			if (x <= 100) {
+			tempGenoRed = absent;
+			}
+		}
+		}
 
-    function logicAgoutiMerge() {
-      // console.log(tempGenoRed, tempGenoMealy, tempGenoWild);
-      let merge = '';
-      let red = tempGenoRed.split('');
-      let mealy = tempGenoMealy.split('');
-      let wild = tempGenoWild.split('');
-      // console.log(red, mealy, wild);
+		function logicAgoutiMealy() {
+		dom = 'tt';
+		rec = 't';
+		let x = rng(100);
 
-      if (red.length !== 0) {
-        if (mealy.length !== 0) {
-          merge = [red[0],mealy[0],red[1],mealy[1]];
-        } else if (wild.length !== 0) {
-          merge = [red[0],wild[0],red[1],wild[1]];
-        } else {
-          merge = [red[0],red[1]];
-        }
-      }
+		if (geneA2 === dom && geneB2 === dom) {
+			// dom x dom
+			if (x <= 65) {
+			tempGenoMealy = rec;
+			} else if (x <= 90) {
+			tempGenoMealy = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA2 === dom && geneB2 === rec || geneA2 === rec && geneB2 === dom) {
+			// dom x rec
+			if (x <= 45) {
+			tempGenoMealy = rec;
+			} else if (x <= 60) {
+			tempGenoMealy = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA2 === dom && geneB2 === false || geneA2 === false && geneB2 === dom) {
+			// dom x none
+			if (x <= 30) {
+			tempGenoMealy = rec;
+			} else if (x <= 35) {
+			tempGenoMealy = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA2 === rec && geneB2 === rec) {
+			// rec x rec
+			if (x <= 30) {
+			tempGenoMealy = rec;
+			} else if (x <= 35) {
+			tempGenoMealy = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA2 === rec && geneB2 === false || geneA2 === false && geneB2 === rec) {
+			// rec x none
+			if (x <= 15) {
+			tempGenoMealy = rec;
+			} else if (x <= 100) {
+			// none
+			}
+		}
+		}
 
-      merge = merge.join('').replace(/a(t|w)/g, 'a').replace(/w/g, '+');
-      pathGeno.base.push(merge);
-    }
+		function logicAgoutiWild() {
+		dom = 'ww';
+		rec = 'w';
+		let x = rng(100);
 
-    if (geneA !== false && geneB !== false) {
-      logicAgoutiSplit();
-      logicAgoutiRed();
-      if (geneA2 !== false || geneB2 !== false) {
-        logicAgoutiMealy();
-      }
-      if (geneA3 !== false || geneB3 !== false) {
-        logicAgoutiWild();
-      }
-      logicAgoutiMerge();
-    } else {
-      // TODO: change foal.warning to array instead of string
-      foal.warning = 'agouti missing, inaccurate parent geno';
-      pathGeno.base.push('??');
-    }
-  }
+		if (geneA3 === dom && geneB3 === dom) {
+			// dom x dom
+			if (x <= 65) {
+			tempGenoWild = rec;
+			} else if (x <= 90) {
+			tempGenoWild = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA3 === dom && geneB3 === rec || geneA3 === rec && geneB3 === dom) {
+			// dom x rec
+			if (x <= 45) {
+			tempGenoWild = rec;
+			} else if (x <= 60) {
+			tempGenoWild = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA3 === dom && geneB3 === false || geneA3 === false && geneB3 === dom) {
+			// dom x none
+			if (x <= 30) {
+			tempGenoWild = rec;
+			} else if (x <= 35) {
+			tempGenoWild = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA3 === rec && geneB3 === rec) {
+			// rec x rec
+			if (x <= 30) {
+			tempGenoWild = rec;
+			} else if (x <= 35) {
+			tempGenoWild = dom;
+			} else if (x <= 100) {
+			// none
+			}
+		} else if (geneA3 === rec && geneB3 === false || geneA3 === false && geneB3 === rec) {
+			// rec x none
+			if (x <= 15) {
+			tempGenoWild = rec;
+			} else if (x <= 100) {
+			// none
+			}
+		}
+		}
+
+		function logicAgoutiMerge() {
+		// console.log(tempGenoRed, tempGenoMealy, tempGenoWild);
+		let merge = '';
+		let red = tempGenoRed.split('');
+		let mealy = tempGenoMealy.split('');
+		let wild = tempGenoWild.split('');
+		// console.log(red, mealy, wild);
+
+		if (red.length !== 0) {
+			if (mealy.length !== 0) {
+			merge = [red[0],mealy[0],red[1],mealy[1]];
+			} else if (wild.length !== 0) {
+			merge = [red[0],wild[0],red[1],wild[1]];
+			} else {
+			merge = [red[0],red[1]];
+			}
+		}
+
+		merge = merge.join('').replace(/a(t|w)/g, 'a').replace(/w/g, '+');
+		pathGeno.base.push(merge);
+		}
+
+		if (geneA !== false && geneB !== false) {
+		logicAgoutiSplit();
+		logicAgoutiRed();
+		if (geneA2 !== false || geneB2 !== false) {
+			logicAgoutiMealy();
+		}
+		if (geneA3 !== false || geneB3 !== false) {
+			logicAgoutiWild();
+		}
+		logicAgoutiMerge();
+		} else {
+		// TODO: change foal.warning to array instead of string
+		foal.warning = 'agouti missing, inaccurate parent geno';
+		pathGeno.base.push('??');
+		}
+	}
+
 
   // set dom, rec, cloak, geneA and geneB variables
   function logicPrepareGene(gene) {
@@ -892,8 +895,31 @@ function rollCoat(pathGeno) {
   logicCommon(test);
   */
 
-  logicBlack();
-  logicAgouti();
+	if (input.ceremonialBelt !== 'n/a') {
+		console.log('ceremonial belt triggered');
+
+		let regExBlack = /\b(E|e)(E|e)\b/;
+		geneBlackA = sire.geno.match(regExBlack) !== null ? sire.geno.match(regExBlack)[0]:false;
+		geneBlackB = dam.geno.match(regExBlack) !== null ? dam.geno.match(regExBlack)[0]:false;
+		console.log(geneBlackA, geneBlackB);
+
+		let regExRed = /\b(A|At|Aw|a)(A|At|Aw|a)\b/;
+		geneRedA = sire.geno.match(regExRed) !== null ? sire.geno.match(regExRed)[0]:false;
+		geneRedB = dam.geno.match(regExRed) !== null ? dam.geno.match(regExRed)[0]:false;
+		geneRedSplit = [geneRedA.split(''), geneRedB.split('')];
+		console.log(geneRedSplit);
+
+		let legalOptions = [
+			[`${geneBlackA}${geneBlackB}`],
+		]
+
+		pathGeno.base.push('ee');
+		pathGeno.base.push('aa');
+	}
+	else {
+		logicBlack();
+		logicAgouti();
+	}
   for (let i = 0; i < genes.common.length; i++) {
     logicCommon(genes.common[i]);
   }
