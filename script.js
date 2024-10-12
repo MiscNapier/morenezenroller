@@ -898,19 +898,29 @@ function rollCoat(pathGeno) {
 	if (input.ceremonialBelt !== 'n/a') {
 		console.log('ceremonial belt triggered');
 
-		let regExBlack = /\b(E|e)(E|e)\b/;
-		geneBlackA = sire.geno.match(regExBlack) !== null ? sire.geno.match(regExBlack)[0]:false;
-		geneBlackB = dam.geno.match(regExBlack) !== null ? dam.geno.match(regExBlack)[0]:false;
-		console.log(geneBlackA, geneBlackB);
+		function searchBase(base) {
+			if (base.search(/ee (A|At|A\+|a)(A|At|A\+|a)/) !== -1) {
+				return 'chestnut';
+			} else if (base.search(/E(E|e) (A)(A|a)/) !== -1) {
+				return 'bay';
+			} else if (base.search(/E(E|e) (At)(A|At|a)/) !== -1) {
+				return 'mealy';
+			} else if (base.search(/E(E|e) (A\+)(A|A\+|a)/) !== -1) {
+				return 'wild bay';
+			} else if (base.search(/E(E|e) aa/) !== -1) {
+				return 'black';
+			}
+		}
 
-		let regExRed = /\b(A|At|Aw|a)(A|At|Aw|a)\b/;
-		geneRedA = sire.geno.match(regExRed) !== null ? sire.geno.match(regExRed)[0]:false;
-		geneRedB = dam.geno.match(regExRed) !== null ? dam.geno.match(regExRed)[0]:false;
-		geneRedSplit = [geneRedA.split(''), geneRedB.split('')];
-		console.log(geneRedSplit);
+		let baseSire = searchBase(sire.geno);
+		let baseDam = searchBase(dam.geno);
+		console.log(baseSire, baseDam);
 
-		let legalOptions = [
-			[`${geneBlackA}${geneBlackB}`],
+		let legalParents = [
+			['chestnut', [
+				['chestnut', 'chestnut'],
+				['chestnut', 'mealy'],
+			]],
 		]
 
 		pathGeno.base.push('ee');
