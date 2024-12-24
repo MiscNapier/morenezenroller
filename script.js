@@ -19,7 +19,7 @@ populate('damType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('buildItems', ['none','light tonic','medium tonic','heavy tonic'], false);
 populate('ceremonialMask', genes, true);
 populate('ceremonialHeadpiece', genes, true);
-populate('ceremonialBelt', ['chestnut','mealy','wild bay','bay','black'], false);
+// populate('ceremonialBelt', ['chestnut','mealy','wild bay','bay','black'], false);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -71,6 +71,60 @@ function parentSetup() {
   };
 }
 
+function ceremonialBeltSetup() {
+	// get parent black
+	// get parent agouti
+	// list all possible pheno results
+	// populate dropdown with possible results
+
+	function getBlack() {
+		let sorted = ['E','e'];
+		let regEx1 = /(E|e)(?=E|e)/;
+		let regEx2 = /(?<=E|e)(E|e)/;
+		
+		geneA = sire.geno.match(regEx1) !== null ? sire.geno.match(regEx1)[0]:'e';
+		geneB = sire.geno.match(regEx2) !== null ? sire.geno.match(regEx2)[0]:'e';
+		geneC = dam.geno.match(regEx1) !== null ? dam.geno.match(regEx1)[0]:'e';
+		geneD = dam.geno.match(regEx2) !== null ? dam.geno.match(regEx2)[0]:'e';
+		return [geneA+geneC, geneB+geneC, geneA+geneD, geneB+geneD].map(x => x.split('').sortByArray(sorted).join('')).filter(onlyUnique);
+	}
+
+	function getAgouti() {
+		let sorted = ['A','At','Aw','a'];
+		let regEx1 = /(A|At|Aw|a)(?=A|At|Aw|a)/;
+		let regEx2 = /(?<=A|At|Aw|a)(A|At|Aw|a)/;
+
+		geneA = sire.geno.match(regEx1) !== null ? sire.geno.match(regEx1)[0]:'a';
+		geneB = sire.geno.match(regEx2) !== null ? sire.geno.match(regEx2)[0]:'a';
+		geneC = dam.geno.match(regEx1) !== null ? dam.geno.match(regEx1)[0]:'a';
+		geneD = dam.geno.match(regEx2) !== null ? dam.geno.match(regEx2)[0]:'a';
+		return [geneA+geneC, geneB+geneC, geneA+geneD, geneB+geneD].map(x => x.split('').sortByArray(sorted).join('')).filter(onlyUnique);
+	}
+
+	let geno = {black: getBlack(), agouti: getAgouti()};
+	let output = [];
+	if (geno.black.checkGene(/ee/) && geno.agouti.checkGene(/(A|At|Aw|a)(A|At|Aw|a)/)) {
+		output.push('chestnut');
+	} 
+	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(A)(A|a)/)) {
+		output.push('bay');
+	} 
+	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(At)(A|At|a)/)) {
+		output.push('mealy');
+	} 
+	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(A\+)(A|A\+|a)/)) {
+		output.push('wild bay');
+	} 
+	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/aa/)) {
+		output.push('black');
+	}
+	// console.log(geno, output);
+
+	document.getElementById('ceremonialBelt').innerHTML = '';
+	output.unshift('n/a');
+	populate('ceremonialBelt', output, false);
+}
+
 let eleSelect = document.getElementsByTagName('select');
 for (let i = 0; i < eleSelect.length; i++) {
   eleSelect[i].addEventListener('change', inputUpdate);
@@ -85,6 +139,7 @@ for (let i = 0; i < eleInput.length; i++) {
 function inputUpdate() {
   inputSetup();
   parentSetup();
+  ceremonialBeltSetup();
 
   // console.log(input);
   // console.log(sire, dam);

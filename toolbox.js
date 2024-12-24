@@ -101,3 +101,17 @@ String.prototype.capitalizeStr = function() {
   return this.replace(/(?:^|\(|\s|-|\/)\S/g, function(a) { return a.toUpperCase(); });
 };
 // string.capitalize();
+
+// const arrayToSort = ['apple', 'banana', 'cherry', 'date'];
+// const sortOrder = ['banana', 'date', 'apple', 'cherry'];
+// const sortedArray = arrayToSort.sortByArray(sortOrder);
+// console.log(sortedArray);
+Array.prototype.sortByArray = function(orderArr) {
+    const map = new Map();
+    orderArr.forEach((val, index) => map.set(val, index));
+    return this.sort((a, b) => map.get(a) - map.get(b));
+};
+
+Array.prototype.checkGene = function(geneRegex) {
+	return this.some(x => geneRegex.test(x))
+}
