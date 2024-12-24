@@ -77,10 +77,10 @@ function ceremonialBeltSetup() {
 		let regEx1 = /(E|e)(?=E|e)/;
 		let regEx2 = /(?<=E|e)(E|e)/;
 		
-		geneA = sire.geno.match(regEx1) !== null ? sire.geno.match(regEx1)[0]:'e';
-		geneB = sire.geno.match(regEx2) !== null ? sire.geno.match(regEx2)[0]:'e';
-		geneC = dam.geno.match(regEx1) !== null ? dam.geno.match(regEx1)[0]:'e';
-		geneD = dam.geno.match(regEx2) !== null ? dam.geno.match(regEx2)[0]:'e';
+		let geneA = sire.geno.match(regEx1) !== null ? sire.geno.match(regEx1)[0]:'e';
+		let geneB = sire.geno.match(regEx2) !== null ? sire.geno.match(regEx2)[0]:'e';
+		let geneC = dam.geno.match(regEx1) !== null ? dam.geno.match(regEx1)[0]:'e';
+		let geneD = dam.geno.match(regEx2) !== null ? dam.geno.match(regEx2)[0]:'e';
 		return [geneA+geneC, geneB+geneC, geneA+geneD, geneB+geneD].map(x => x.split('').sortByArray(sorted).join('')).filter(onlyUnique);
 	}
 
@@ -89,27 +89,28 @@ function ceremonialBeltSetup() {
 		let regEx1 = /(A|At|Aw|a)(?=A|At|Aw|a)/;
 		let regEx2 = /(?<=A|At|Aw|a)(A|At|Aw|a)/;
 
-		geneA = sire.geno.match(regEx1) !== null ? sire.geno.match(regEx1)[0]:'a';
-		geneB = sire.geno.match(regEx2) !== null ? sire.geno.match(regEx2)[0]:'a';
-		geneC = dam.geno.match(regEx1) !== null ? dam.geno.match(regEx1)[0]:'a';
-		geneD = dam.geno.match(regEx2) !== null ? dam.geno.match(regEx2)[0]:'a';
-		return [geneA+geneC, geneB+geneC, geneA+geneD, geneB+geneD].map(x => x.split('').sortByArray(sorted).join('')).filter(onlyUnique);
+		let geneA = sire.geno.match(regEx1) !== null ? sire.geno.match(regEx1)[0]:'a';
+		let geneB = sire.geno.match(regEx2) !== null ? sire.geno.match(regEx2)[0]:'a';
+		let geneC = dam.geno.match(regEx1) !== null ? dam.geno.match(regEx1)[0]:'a';
+		let geneD = dam.geno.match(regEx2) !== null ? dam.geno.match(regEx2)[0]:'a';
+		return [[geneA,geneC], [geneB,geneC], [geneA,geneD], [geneB,geneD]].map(x => x.sortByArray(sorted).join('')).filter(onlyUnique);
 	}
 
 	let geno = {black: getBlack(), agouti: getAgouti()};
+	console.log(geno);
 	let output = [];
 	if (geno.black.checkGene(/ee/) && geno.agouti.checkGene(/(A|At|Aw|a)(A|At|Aw|a)/)) {
 		output.push('chestnut');
-	} 
+	}
 	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(A)(A|a)/)) {
 		output.push('bay');
-	} 
+	}
 	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(At)(A|At|a)/)) {
 		output.push('mealy');
-	} 
+	}
 	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(Aw)(A|Aw|a)/)) {
 		output.push('wild bay');
-	} 
+	}
 	if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/aa/)) {
 		output.push('black');
 	}
@@ -484,19 +485,19 @@ function rollCoat(pathGeno) {
 		}
 
 		rollAgain();
-		if (input.ceremonialBelt === 'chestnut' && pathGeno.base.checkGene(/ee/)) {
+		while (input.ceremonialBelt === 'chestnut' && !pathGeno.base.checkGene(/ee/)) {
 			rollAgain();
 		}
-		else if (input.ceremonialBelt === 'bay' && pathGeno.base.checkGene(/E(E|e)/)) {
+		while (input.ceremonialBelt === 'bay' && !pathGeno.base.checkGene(/E(E|e)/)) {
 			rollAgain();
 		}
-		else if (input.ceremonialBelt === 'mealy' && pathGeno.base.checkGene(/E(E|e)/)) {
+		while (input.ceremonialBelt === 'mealy' && !pathGeno.base.checkGene(/E(E|e)/)) {
 			rollAgain();
 		}
-		if (input.ceremonialBelt === 'wild bay' && pathGeno.base.checkGene(/E(E|e)/)) {
+		while (input.ceremonialBelt === 'wild bay' && !pathGeno.base.checkGene(/E(E|e)/)) {
 			rollAgain();
 		}
-		if (input.ceremonialBelt === 'black' && pathGeno.base.checkGene(/E(E|e)/)) {
+		while (input.ceremonialBelt === 'black' && !pathGeno.base.checkGene(/E(E|e)/)) {
 			rollAgain();
 		}
 	}
@@ -533,7 +534,7 @@ function rollCoat(pathGeno) {
 			// console.log(geneA3, geneB3);
 			}
 
-			// if (pathGeno.base[1] !== null) pathGeno.base.pop();
+			if (pathGeno.base.checkGene(/(A|At|A\+|a)(A|At|A\+|a)/)) pathGeno.base.pop();
 
 			function logicAgoutiRed() {
 			dom = 'AA';
@@ -734,19 +735,24 @@ function rollCoat(pathGeno) {
 		}
 
 		rollAgain();
-		if (input.ceremonialBelt === 'chestnut' && pathGeno.base.checkGene(/(A|At|Aw|a)(A|At|Aw|a)/)) {
+		while (input.ceremonialBelt === 'chestnut' && !pathGeno.base.checkGene(/(A|At|A\+|a)(A|At|A\+|a)/)) {
+			console.log('chestnut');
 			rollAgain();
 		}
-		else if (input.ceremonialBelt === 'bay' && pathGeno.base.checkGene(/(A)(A|a)/)) {
+		while (input.ceremonialBelt === 'bay' && !pathGeno.base.checkGene(/(A)(A|a)/)) {
+			console.log('bay');
 			rollAgain();
 		}
-		else if (input.ceremonialBelt === 'mealy' && pathGeno.base.checkGene(/(At)(A|At|a)/)) {
+		while (input.ceremonialBelt === 'mealy' && !pathGeno.base.checkGene(/(At)(A|At|a)/)) {
+			console.log('mealy');
 			rollAgain();
 		}
-		if (input.ceremonialBelt === 'wild bay' && pathGeno.base.checkGene(/(Aw)(A|Aw|a)/)) {
+		while (input.ceremonialBelt === 'wild bay' && !pathGeno.base.checkGene(/(A\+)(A|A\+|a)/)) {
+			console.log('wild bay');
 			rollAgain();
 		}
-		if (input.ceremonialBelt === 'black' && pathGeno.base.checkGene(/aa/)) {
+		while (input.ceremonialBelt === 'black' && !pathGeno.base.checkGene(/aa/)) {
+			console.log('black');
 			rollAgain();
 		}
 	}
@@ -990,34 +996,36 @@ function rollCoat(pathGeno) {
   logicCommon(test);
   */
 
-	if (input.ceremonialBelt !== 'n/a') {
-		console.log('ceremonial belt triggered');
+	// if (input.ceremonialBelt !== 'n/a') {
+	// 	console.log('ceremonial belt triggered');
 
-		if (input.ceremonialBelt === 'chestnut') {
-			pathGeno.base.push('ee');
-			pathGeno.base.push(randomizer(['AA','AtAt','Ata','A+A+','AA+','Aa','aa']));
-		}
-		else if (input.ceremonialBelt === 'mealy') {
-			pathGeno.base.push(randomizer(['EE','Ee']));
-			pathGeno.base.push(randomizer(['AtAt','Ata']));
-		}
-		else if (input.ceremonialBelt === 'wild bay') {
-			pathGeno.base.push(randomizer(['EE','Ee']));
-			pathGeno.base.push(randomizer(['A+A+','A+a']));
-		}
-		else if (input.ceremonialBelt === 'bay') {
-			pathGeno.base.push(randomizer(['EE','Ee']));
-			pathGeno.base.push(randomizer(['AA','Aa']));
-		}
-		else if (input.ceremonialBelt === 'black') {
-			pathGeno.base.push(randomizer(['EE','Ee']));
-			pathGeno.base.push('aa');
-		}
-	}
-	else {
-		logicBlack();
-		logicAgouti();
-	}
+	// 	if (input.ceremonialBelt === 'chestnut') {
+	// 		pathGeno.base.push('ee');
+	// 		pathGeno.base.push(randomizer(['AA','AtAt','Ata','A+A+','AA+','Aa','aa']));
+	// 	}
+	// 	else if (input.ceremonialBelt === 'mealy') {
+	// 		pathGeno.base.push(randomizer(['EE','Ee']));
+	// 		pathGeno.base.push(randomizer(['AtAt','Ata']));
+	// 	}
+	// 	else if (input.ceremonialBelt === 'wild bay') {
+	// 		pathGeno.base.push(randomizer(['EE','Ee']));
+	// 		pathGeno.base.push(randomizer(['A+A+','A+a']));
+	// 	}
+	// 	else if (input.ceremonialBelt === 'bay') {
+	// 		pathGeno.base.push(randomizer(['EE','Ee']));
+	// 		pathGeno.base.push(randomizer(['AA','Aa']));
+	// 	}
+	// 	else if (input.ceremonialBelt === 'black') {
+	// 		pathGeno.base.push(randomizer(['EE','Ee']));
+	// 		pathGeno.base.push('aa');
+	// 	}
+	// }
+	// else {
+	// 	logicBlack();
+	// 	logicAgouti();
+	// }
+	logicBlack();
+	logicAgouti();
   for (let i = 0; i < genes.common.length; i++) {
     logicCommon(genes.common[i]);
   }
